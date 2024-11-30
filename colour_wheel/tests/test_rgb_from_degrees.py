@@ -1,4 +1,11 @@
-from lib.utils import rgb_from_degrees
+from lib.utils import get_sector, rgb_from_degrees
+
+
+def test_get_sector():
+    """Test we can get the sector."""
+    assert get_sector(0) == 0
+    assert get_sector(60) == 1
+    assert get_sector(150) == 2  # noqa: PLR2004
 
 
 def test_rgb_from_degrees():
