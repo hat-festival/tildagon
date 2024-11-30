@@ -27,4 +27,4 @@ def test_rgb_from_degrees():
     )
 
     for expectation in expectations:
-        assert rgb_from_degrees(expectation[0]) == expectation[1]
+        assert rgb_from_degrees(expectation[0]) == list(expectation[1])

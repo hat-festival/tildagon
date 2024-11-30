@@ -24,7 +24,7 @@ class ColourWheel(app.App):
         ctx.save()
         rgb = rgb_from_degrees(self.rotation)
         ctx.rgb(*rgb).rectangle(-120, -120, 240, 240).fill()
-        self.rotation = (self.rotation + 1) % 360
+        self.rotation = (self.rotation + 2) % 360
 
         ctx.restore()
 

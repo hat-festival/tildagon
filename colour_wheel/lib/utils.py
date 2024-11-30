@@ -1,6 +1,8 @@
 from math import floor
 
-sectors = [
+# undefined component will be calculated, using "offset"
+# this can be generated
+segments = [
     {"red": 1, "green": 0, "offset": 0},
     {"green": 0, "blue": 1, "offset": 60},
     {"red": 0, "blue": 1, "offset": 120},
@@ -17,14 +19,11 @@ def get_sector(degrees):
 
 def rgb_from_degrees(degrees):
     """Get RGB from degrees of rotation."""
-    sector = sectors[get_sector(degrees)]
-    offset = (1 / 60) * (degrees - sector["offset"])
+    sector = get_sector(degrees)
+    segment = segments[sector]
+    offset = (1 / 60) * (degrees - segment["offset"])
 
-    if get_sector(degrees) % 2 == 1:
+    if sector % 2 == 1:
         offset = 1 - offset
 
-    return (
-        sector.get("red", offset),
-        sector.get("green", offset),
-        sector.get("blue", offset),
-    )
+    return [segment.get(x, offset) for x in ["red", "green", "blue"]]
