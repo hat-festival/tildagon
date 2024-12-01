@@ -2,6 +2,7 @@ from lib.rgb_from_degrees import (
     get_sector,
     get_segments,
     rgb_from_degrees,
+    rgb_from_hue,
 )
 
 
@@ -34,21 +35,17 @@ def test_rgb_from_degrees():
         assert rgb_from_degrees(expectation[0])["decimals"] == expectation[1]
 
 
-# def test_rgb_from_decimal():
-#     """Test we can rgb from hue."""
-#     expectations = (
-#         (
-#             0,
-#             (255, 0, 0),
-#         ),
-#         (
-#             2/3,
-#             (0, 255, 0),
-#         ),
-#     )
+def test_rgb_from_hue():
+    """Test we can rgb from hue."""
+    expectations = (
+        (0, (255, 0, 0)),
+        (1 / 3, (0, 255, 0)),
+        (1 / 2, (0, 255, 255)),
+        (2 / 3, (0, 0, 255)),
+    )
 
-#     for expectation in expectations:
-#         assert rgb_from_decimal(expectation[0])["bytes"] == expectation[1]
+    for expectation in expectations:
+        assert rgb_from_hue(expectation[0])["bytes"] == expectation[1]
 
 
 def test_get_segments():

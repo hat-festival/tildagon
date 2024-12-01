@@ -5,7 +5,7 @@ from tildagonos import tildagonos
 
 import app
 
-from .lib.rgb_from_degrees import rgb_from_degrees
+from .lib.rgb_from_degrees import rgb_from_hue
 
 
 class ColourWheel(app.App):
@@ -16,9 +16,9 @@ class ColourWheel(app.App):
         self.button_states = Buttons(self)
         eventbus.emit(PatternDisable())
 
-        self.rotation = 0
-        self.colour_increment = 2
-        self.colour_increment_limit = 16
+        self.hue = 0
+        self.hue_increment = 0.01
+        self.hue_increment_limit = 0.1
 
         self.font_size = 48
         self.text_step_start = 240
@@ -35,23 +35,24 @@ class ColourWheel(app.App):
             self.minimise()
         elif self.button_states.get(BUTTON_TYPES["UP"]):
             self.button_states.clear()
-            if self.colour_increment < self.colour_increment_limit:
-                self.colour_increment += 1
+            if self.hue_increment < self.hue_increment_limit:
+                self.hue_increment += 1
         elif self.button_states.get(BUTTON_TYPES["DOWN"]):
             self.button_states.clear()
-            if self.colour_increment > 1:
-                self.colour_increment -= 1
+            if self.hue_increment > 1:
+                self.hue_increment -= 1
 
     def draw(self, ctx):
         """Draw screen."""
         ctx.save()
-        rgb = rgb_from_degrees(self.rotation)
+        rgb = rgb_from_hue(self.hue)
 
         self.light_leds(rgb)
         self.fill_screen(ctx, rgb)
         self.write_text(ctx, rgb)
 
-        self.rotation = (self.rotation + self.colour_increment) % 360
+        self.hue = (self.hue + self.hue_increment) % 1.0
+
         ctx.restore()
 
     def fill_screen(self, ctx, rgb):
