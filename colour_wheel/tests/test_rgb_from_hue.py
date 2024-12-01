@@ -1,4 +1,4 @@
-from lib.rgb_from_degrees import (
+from lib.rgb_from_hue import (
     get_sector,
     get_segments,
     rgb_from_degrees,

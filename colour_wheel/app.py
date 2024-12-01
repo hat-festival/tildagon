@@ -5,7 +5,7 @@ from tildagonos import tildagonos
 
 import app
 
-from .lib.rgb_from_degrees import rgb_from_hue
+from .lib.rgb_from_hue import rgb_from_hue
 
 
 class ColourWheel(app.App):
