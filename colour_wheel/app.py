@@ -18,7 +18,7 @@ class ColourWheel(app.App):
 
         self.hue = 0
         self.hue_increment = 0.01
-        self.hue_increment_limit = 0.1
+        # self.hue_increment_limit = 0.1
 
         self.font_size = 48
         self.text_step_start = 240
@@ -33,14 +33,14 @@ class ColourWheel(app.App):
         if self.button_states.get(BUTTON_TYPES["CANCEL"]):
             self.button_states.clear()
             self.minimise()
+
         elif self.button_states.get(BUTTON_TYPES["UP"]):
             self.button_states.clear()
-            if self.hue_increment < self.hue_increment_limit:
-                self.hue_increment += 1
+            self.text_step_increment += 4
+
         elif self.button_states.get(BUTTON_TYPES["DOWN"]):
             self.button_states.clear()
-            if self.hue_increment > 1:
-                self.hue_increment -= 1
+            self.text_step_increment -= 4
 
     def draw(self, ctx):
         """Draw screen."""
@@ -68,7 +68,18 @@ class ColourWheel(app.App):
     def write_text(self, ctx, rgb):
         """Draw the text."""
         ctx.font_size = self.font_size
-        ctx.rgb(*rgb["inverse"]).move_to(self.text_step, 16).text(self.text)
+        baseline_offset = 12
+        outline_size = 1
+
+        for i in [0 - outline_size, outline_size]:
+            for j in [0 - outline_size, outline_size]:
+                ctx.rgb(*rgb["inverse"]).move_to(
+                    self.text_step + i, baseline_offset + j
+                ).text(self.text)
+
+        ctx.rgb(*rgb["decimals"]).move_to(self.text_step, baseline_offset).text(
+            self.text
+        )
 
         self.text_step -= self.text_step_increment
         if self.text_step < self.text_step_limit:
