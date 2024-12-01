@@ -39,7 +39,8 @@ class HatVillage(app.App):
 
         elif self.button_states.get(BUTTON_TYPES["DOWN"]):
             self.button_states.clear()
-            self.text_step_increment -= 4
+            if self.text_step_increment >= 8:  # noqa: PLR2004
+                self.text_step_increment -= 4
 
     def draw(self, ctx):
         """Draw screen."""

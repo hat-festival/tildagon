@@ -14,7 +14,7 @@ def test_get_sector():
 
 
 def test_rgb_from_degrees():
-    """Test we can rgb from hue."""
+    """Test we can rgb from degrees of rotation."""
     expectations = (
         (0, (1, 0, 0)),
         (15, (1, 0.25, 0)),
