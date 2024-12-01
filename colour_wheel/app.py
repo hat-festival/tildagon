@@ -17,8 +17,16 @@ class ColourWheel(app.App):
         eventbus.emit(PatternDisable())
 
         self.rotation = 0
-        self.increment = 2
-        self.increment_limit = 16
+        self.colour_increment = 2
+        self.colour_increment_limit = 16
+
+        self.font_size = 48
+        self.text_step_start = 240
+        self.text_step = self.text_step_start
+        self.text_step_increment = 4
+        self.text_step_limit = -340
+
+        self.text = "Hat Village"
 
     def update(self, _):
         """Update badge."""
@@ -27,29 +35,43 @@ class ColourWheel(app.App):
             self.minimise()
         elif self.button_states.get(BUTTON_TYPES["UP"]):
             self.button_states.clear()
-            if self.increment < self.increment_limit:
-                self.increment += 1
+            if self.colour_increment < self.colour_increment_limit:
+                self.colour_increment += 1
         elif self.button_states.get(BUTTON_TYPES["DOWN"]):
             self.button_states.clear()
-            if self.increment > 1:
-                self.increment -= 1
+            if self.colour_increment > 1:
+                self.colour_increment -= 1
 
     def draw(self, ctx):
         """Draw screen."""
         ctx.save()
         rgb = rgb_from_degrees(self.rotation)
+
+        self.light_leds(rgb)
+        self.fill_screen(ctx, rgb)
+        self.write_text(ctx, rgb)
+
+        self.rotation = (self.rotation + self.colour_increment) % 360
+        ctx.restore()
+
+    def fill_screen(self, ctx, rgb):
+        """Fill the screen."""
         ctx.rgb(*rgb["decimals"]).rectangle(-120, -120, 240, 240).fill()
 
+    def light_leds(self, rgb):
+        """Light the LEDs."""
         for i in range(12):
             tildagonos.leds[i + 1] = rgb["bytes"]
-
         tildagonos.leds.write()
 
-        # ctx.rgb(1, 1, 1).move_to(-80, 0).text("Hat Village")
+    def write_text(self, ctx, rgb):
+        """Draw the text."""
+        ctx.font_size = self.font_size
+        ctx.rgb(*rgb["inverse"]).move_to(self.text_step, 16).text(self.text)
 
-        self.rotation = (self.rotation + self.increment) % 360
-
-        ctx.restore()
+        self.text_step -= self.text_step_increment
+        if self.text_step < self.text_step_limit:
+            self.text_step = self.text_step_start
 
 
 __app_export__ = ColourWheel

@@ -51,4 +51,8 @@ def rgb_from_degrees(degrees):
         offset = 1 - offset
 
     rgb = [segment.get(x, offset) for x in ["red", "green", "blue"]]
-    return {"decimals": tuple(rgb), "bytes": tuple([int(x * 255) for x in rgb])}
+    return {
+        "decimals": tuple(rgb),
+        "inverse": tuple([1 - x for x in rgb]),
+        "bytes": tuple([int(x * 255) for x in rgb]),
+    }
