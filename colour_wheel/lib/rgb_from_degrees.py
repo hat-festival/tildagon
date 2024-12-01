@@ -1,20 +1,18 @@
-from collections import deque
 from math import floor
 
 
 def get_segments():
     """Get the segments."""
-    pattern = deque([1, None, 0, 0, None, 1])
-    offsets = {"red": 0, "green": 2, "blue": 4}
+    pattern = [1, None, 0, 0, None, 1]
+    offsets = {"red": 0, "blue": 2, "green": 4}
 
     segments = []
     for i in range(6):
         segments.append({"offset": i * 60})
         for component, offset in offsets.items():
-            pattern.rotate(0 - offset)
-            if pattern[i] is not None:
-                segments[-1][component] = pattern[i]
-            pattern.rotate(offset)
+            index = (i + offset) % len(pattern)
+            if pattern[index] is not None:
+                segments[-1][component] = pattern[index]
 
     return segments
 
@@ -42,3 +40,8 @@ def rgb_from_degrees(degrees):
         "inverse": tuple([1 - x for x in rgb]),
         "bytes": tuple([int(x * 255) for x in rgb]),
     }
+
+
+def rgb_from_decimal(decimal):
+    """Get RGB from hue value (0.0 - 1.0)."""
+    return rgb_from_degrees(decimal * 360)
