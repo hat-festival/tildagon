@@ -11,6 +11,30 @@ segments = [
     {"red": 1, "blue": 0, "offset": 300},
 ]
 
+# segments = []
+# for i in range(6):
+#     offset = i * 60
+#     red = blue = green = None
+#     if i == 0:
+#         red = 1
+#         green = 0
+#     if i == 1:
+#         green = 0
+#         blue = 1
+#     if i == 2:
+#         red = 0
+#         blue = 1
+#     if i == 3:
+#         red = 0
+#         green = 1
+#     if i == 4:
+#         green = 1
+#         blue = 0
+#     if i == 5:
+#         red = 1
+#         blue = 0
+#     segments.append({"red": red, "green": green, "blue": blue, "offset": offset})
+
 
 def get_sector(degrees):
     """Determine which sector we're in."""
@@ -26,4 +50,5 @@ def rgb_from_degrees(degrees):
     if sector % 2 == 1:
         offset = 1 - offset
 
-    return [segment.get(x, offset) for x in ["red", "green", "blue"]]
+    rgb = [segment.get(x, offset) for x in ["red", "green", "blue"]]
+    return {"decimals": tuple(rgb), "bytes": tuple([int(x * 255) for x in rgb])}
