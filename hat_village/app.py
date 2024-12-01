@@ -8,8 +8,8 @@ import app
 from .lib.rgb_from_hue import rgb_from_hue
 
 
-class ColourWheel(app.App):
-    """Rorate the colours."""
+class HatVillage(app.App):
+    """Village of Hats."""
 
     def __init__(self):
         """Construct."""
@@ -85,4 +85,4 @@ class ColourWheel(app.App):
             self.text_step = self.text_step_start
 
 
-__app_export__ = ColourWheel
+__app_export__ = HatVillage
