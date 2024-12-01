@@ -17,13 +17,12 @@ class ColourWheel(app.App):
         eventbus.emit(PatternDisable())
 
         self.hue = 0
-        self.hue_increment = 0.01
-        # self.hue_increment_limit = 0.1
+        self.hue_increment = 0.005
 
         self.font_size = 48
         self.text_step_start = 240
         self.text_step = self.text_step_start
-        self.text_step_increment = 4
+        self.text_step_increment = 8
         self.text_step_limit = -340
 
         self.text = "Hat Village"
